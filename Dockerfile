@@ -20,7 +20,6 @@ RUN dpkg --add-architecture arm64 && \
     git \
     # GStreamer and GLib development packages for examples
     libgstreamer1.0-dev \
-    libgstreamer-plugins-base1.0-dev \
     gstreamer1.0-plugins-base \
     gstreamer1.0-plugins-good \
     gstreamer1.0-libav \
@@ -47,7 +46,11 @@ RUN dpkg --add-architecture arm64 && \
     libpng-dev \
     libtiff-dev \
     libatlas-base-dev \
-    gfortran
+    gfortran \
+    # arm64 development libs
+    libglib2.0-dev:arm64 \
+    libgstreamer1.0-dev:arm64 \
+    libgstreamer-plugins-base1.0-dev:arm64
 
 WORKDIR /app
 
@@ -67,6 +70,15 @@ ENV TARGET_LINUX_AARCH64=1
 ENV USE_FULL_TFLITE=1
 ENV CC_aarch64_unknown_linux_gnu=aarch64-linux-gnu-gcc
 ENV CXX_aarch64_unknown_linux_gnu=aarch64-linux-gnu-g++
+
+ENV PKG_CONFIG_ALLOW_CROSS=1
+ENV PKG_CONFIG_DIR=
+ENV PKG_CONFIG_SYSROOT_DIR=/
+ENV PKG_CONFIG_LIBDIR=/usr/lib/aarch64-linux-gnu/pkgconfig
+ENV PKG_CONFIG_SYSROOT_DIR_aarch64-unknown-linux-gnu=/
+ENV PKG_CONFIG_LIBDIR_aarch64-unknown-linux-gnu=/usr/lib/aarch64-linux-gnu/pkgconfig
+ENV PKG_CONFIG_SYSROOT_DIR_aarch64_unknown_linux_gnu=/
+ENV PKG_CONFIG_LIBDIR_aarch64_unknown_linux_gnu=/usr/lib/aarch64-linux-gnu/pkgconfig
 
 # Create a build script
 RUN echo '#!/bin/bash\n\
