@@ -402,7 +402,8 @@ impl InferenceResult {
             unsafe {
                 let result = &*self.result;
                 // Use FFI helpers to be safe when object tracking is disabled in the model
-                let count = edge_impulse_ffi_rs::bindings::ei_ffi_object_tracking_open_traces_count(result);
+                let count =
+                    edge_impulse_ffi_rs::bindings::ei_ffi_object_tracking_open_traces_count(result);
                 if count == 0 {
                     return vec![];
                 }
@@ -1218,7 +1219,8 @@ impl InferenceResult {
         unsafe {
             let result = &*self.result;
             // Use FFI helpers to be safe when object tracking is disabled in the model
-            let count = edge_impulse_ffi_rs::bindings::ei_ffi_object_tracking_open_traces_count(result);
+            let count =
+                edge_impulse_ffi_rs::bindings::ei_ffi_object_tracking_open_traces_count(result);
             if count == 0 {
                 return None;
             }
@@ -1229,16 +1231,11 @@ impl InferenceResult {
             let mut h: u32 = 0;
             let mut value: f32 = 0.0;
             let ok = edge_impulse_ffi_rs::bindings::ei_ffi_object_tracking_trace_at(
-                result,
-                0,
-                &mut id,
-                &mut x,
-                &mut y,
-                &mut w,
-                &mut h,
-                &mut value,
+                result, 0, &mut id, &mut x, &mut y, &mut w, &mut h, &mut value,
             );
-            if ok != 0 { return Some(id as u32); }
+            if ok != 0 {
+                return Some(id as u32);
+            }
 
             None
         }
